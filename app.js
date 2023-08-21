@@ -7,9 +7,11 @@ const port = 3000;
 
 app.use(express.json());
 
+app.use(morgan('dev'))
+
 app.use('/api/product', productRouter)
 
-app.use(morgan('dev'))
+
 
 
 

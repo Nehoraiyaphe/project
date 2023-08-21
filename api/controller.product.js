@@ -42,12 +42,53 @@ const createUser = async (req, res) => {
 
 };
 
+const putProduct = async (req, res) => {
+    try{
+        const {id} = req.params;
+        const productToUpdate = req.body;
+        console.log(id)
+       
+        const productAdd = await productService.putProduct(productToUpdate, id)
+
+        return res.status(200).json(productAdd)
+    }catch (error){
+        console.error(error)
+    }
+};
+
+ const deleteProduct = async (req,res) =>{
+    try{
+        const {id} = req.params
+        const deleteProduct = await productService.deleteProduct(id);
+        console.log(deleteProduct);
+        res.status(204).json(deleteProduct)
+    }catch (error){
+        console.error(error)
+    }
+
+ };
+
+
+//  const changeOne = async (req,res) =>{
+//     try{
+//         const id = req.params
+//         const quantity = req.body
+//         const product = await productService.changeOne(id, quantity)
+//             return res.status(204).json(product)
+//     }catch (error){
+//         console.error(error)
+//     }
+//  };
+
 
 
 const userControler = {
     getAllproducts,
     getproductsById,
-    createUser
+    createUser,
+    putProduct,
+    deleteProduct
+    // changeOne
 };
 
 

@@ -1,69 +1,94 @@
 
-import fs, { readFile } from 'fs';
-import { promisify } from 'util';
+import fs from 'fs/promises';
+
+
+
+const PRODUCTS_FILE_PATH = "./data.json";
+
+const readProductsFomFiler = async () => {
+    const data = await fs.readFile(PRODUCTS_FILE_PATH, "utf8");
+    return JSON.parse(data);
+};
+
+const writeProductsToFile = async (products) => {
+    const updatedDataJSON = JSON.stringify(products);
+    await fs.writeFile(PRODUCTS_FILE_PATH, updatedDataJSON, "utf8");
+};
+
 
 const getproducts = async (req, res) => {
     try {
-        const readFileAsinc = promisify(fs.readFile)
-        const dataAsinc = await readFileAsinc('./data.json', 'utf8');
-        const jsonData = JSON.parse(dataAsinc);
-
-        return jsonData
-
+        const data = await readProductsFomFiler()
+        return data
     } catch (err) {
         console.error('Error reading data:', err);
         res.send('Error reading data');
     }
 };
 
-const getUserById = async (id) => {
+const getproductsById = async (id) => {
     try {
-        const readFileAsinc = promisify(fs.readFile)
-        const dataAsinc = await readFileAsinc('./data.json', 'utf8');
-        const jsonData = JSON.parse(dataAsinc);
-        const user = jsonData.find(user => id === String(user.id));
-        return user;
+        const data = await readProductsFomFiler()
+        const idProdact = data.find(product => product.id == id)
+        return idProdact;
     } catch (err) {
         console.error('Error reading data:', err);
         res.send('Error reading data');
     }
 };
+
 
 const createUser = async (product) => {
     try {
-        const readFileAsinc = promisify(fs.readFile)
-        const dataAsinc = await readFileAsinc('./data.json', 'utf8');
-        const jsonData = JSON.parse(dataAsinc);
-        jsonData.push(product)
+        const data = await readProductsFomFiler()
+        data.push(product)
+        // console.log('hello')
 
-        console.log('hello')
+        return data
 
-        return jsonData
-        
     } catch (err) {
         res.status(404).send(err)
     }
-}
+};
 
 
+const deleteProduct = async (id) => {
+    try {
+        //import the data
+        const data = await readProductsFomFiler()
+        const index = data.findIndex(product => product.id == id);
+        const item = data.splice(index, 1)
+        //update data
+        writeProductsToFile(data)
+        return item
+    } catch (error) {
+        throw new Error(err)
+    }
 
+};
+const putProduct = async (product, id) => {
+    try {
+        const data = await readProductsFomFiler()
+        const index = data.findIndex(product => product.id == id)
+        data[index] = product;
+        writeProductsToFile(data)
+        return product;
+    } catch (error) {
+        throw new Error(err)
+    }
 
-    // const createUser = async (product) => {
-    //     const products = await readProductsFromFile();
-    //     product.id = v4();
-    //     console.log(product);
-    //     products.push(product);
-    //     await writeProductsToFile(products);
-    //     return product;
-    //   };
+};
+
 
 
 
 
 const productDal = {
     getproducts,
-    getUserById,
-    createUser
+    getproductsById,
+    createUser,
+    deleteProduct,
+    putProduct
 };
 
 export default productDal;
