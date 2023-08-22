@@ -52,6 +52,7 @@ const createUser = async (product) => {
 };
 
 
+
 const deleteProduct = async (id) => {
     try {
         //import the data
@@ -78,7 +79,23 @@ const putProduct = async (product, id) => {
     }
 
 };
+const changeOne = async (id,quantity) =>{
+    try{
+        const data = await readProductsFomFiler()
+        const index = data.findIndex(product => product.id == id)
+        data[index].quantity -= 1
+        console.log(data[index])
+        writeProductsToFile(data)
+        // const x = await readProductsFomFiler()
+        return data[index]
+        // return x
 
+
+    } catch (error) {
+        throw new Error(err)
+        // console.error(error)
+    }
+};
 
 
 
@@ -88,7 +105,8 @@ const productDal = {
     getproductsById,
     createUser,
     deleteProduct,
-    putProduct
+    putProduct,
+    changeOne
 };
 
 export default productDal;

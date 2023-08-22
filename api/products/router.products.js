@@ -17,12 +17,13 @@ router.put('/:id',userController.putProduct)
 
 
 
+
 // מוחק מוצר
 router.delete('/:id',userController.deleteProduct)
 
 
 // מחסרים רק אחד שאתה רוצה
-// router.patch('/:id',userController.changeOne)
+router.patch('/:id',userController.changeOne)
 
 export default router;
 

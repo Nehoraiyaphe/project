@@ -10,6 +10,7 @@ const getproducts = async () => {
     }
 };
 
+
 const getproductsById = async (id) => {
     try {
         const user = await productDal.getproductsById(id);
@@ -59,15 +60,15 @@ const createUser = async (product) => {
 
     }
   };
-//   const changeOne = async (id,quantity) =>{
-//     try{
+  const changeOne = async (id,quantity) =>{
+    try{
         
-//         const product = await productDal.changeOne(id, quantity)
-//             return product;
-//     }catch (error){
-//         console.error(error)
-//     }
-//  };
+        const product = await productDal.changeOne(id, quantity)
+            return product;
+    }catch (error){
+        console.error(error)
+    }
+ };
 
 
 const userService = {
@@ -75,8 +76,8 @@ const userService = {
     getproductsById,
     createUser,
     putProduct,
-    deleteProduct
-    // changeOne 
+    deleteProduct,
+    changeOne 
 
 };
 

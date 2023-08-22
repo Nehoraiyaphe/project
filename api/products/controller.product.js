@@ -14,6 +14,7 @@ const getAllproducts = async (req, res) => {
     }
 };
 
+
 const getproductsById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -69,16 +70,16 @@ const putProduct = async (req, res) => {
  };
 
 
-//  const changeOne = async (req,res) =>{
-//     try{
-//         const id = req.params
-//         const quantity = req.body
-//         const product = await productService.changeOne(id, quantity)
-//             return res.status(204).json(product)
-//     }catch (error){
-//         console.error(error)
-//     }
-//  };
+ const changeOne = async (req,res) =>{
+    try{
+        const {id} = req.params
+        const quantity = req.body
+        const product = await productService.changeOne(id, quantity)
+            return res.status(204).json(product)
+    }catch (error){
+        console.error(error)
+    }
+ };
 
 
 
@@ -87,8 +88,8 @@ const userControler = {
     getproductsById,
     createUser,
     putProduct,
-    deleteProduct
-    // changeOne
+    deleteProduct,
+    changeOne
 };
 
 
